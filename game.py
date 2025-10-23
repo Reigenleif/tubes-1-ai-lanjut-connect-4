@@ -30,6 +30,7 @@ name_map = {
 }
 
 board = Board(1)
+TOTAL_GAMES = 3  # Number of games each pair of bots will play in competition mode
 
 def str2bool(v):
     if isinstance(v, bool):
@@ -55,7 +56,6 @@ def main(first_player = None, second_player = None):
         bot_list = list(bot_map.values())[2:]
         bot_names = list(bot_map.keys())[2:]
         scores = {name: 0 for name in bot_names}
-        total_games = 1  # Number of games each pair of bots will play
 
         match_matrix = [[0 for _ in range(len(bot_list))] for _ in range(len(bot_list))]
         move_matrix = [[[] for _ in range(len(bot_list))] for _ in range(len(bot_list))]
@@ -70,9 +70,9 @@ def main(first_player = None, second_player = None):
 
                 print(f"\nStarting matches between {bot1_name} and {bot2_name}...\n")
 
-                for game_num in range(total_games):
+                for game_num in range(TOTAL_GAMES):
 
-                    print(f"Game {game_num + 1} of {total_games}")
+                    print(f"Game {game_num + 1} of {TOTAL_GAMES}")
                     p1 = bot1_class(Board.PLAYER1_PIECE)
                     p2 = bot2_class(Board.PLAYER2_PIECE)
                     winner, stats = connect4(p1, p2, ui=False)

@@ -30,7 +30,7 @@ name_map = {
 }
 
 board = Board(1)
-TOTAL_GAMES = 3  # Number of games each pair of bots will play in competition mode
+TOTAL_GAMES = 10  # Number of games each pair of bots will play in competition mode
 
 def str2bool(v):
     if isinstance(v, bool):
@@ -73,8 +73,8 @@ def main(first_player = None, second_player = None):
                 for game_num in range(TOTAL_GAMES):
 
                     print(f"Game {game_num + 1} of {TOTAL_GAMES}")
-                    p1 = bot1_class(Board.PLAYER1_PIECE)
-                    p2 = bot2_class(Board.PLAYER2_PIECE)
+                    p1 = bot1_class(Board.PLAYER1_PIECE) if game_num % 2 == 0 else bot2_class(Board.PLAYER1_PIECE)
+                    p2 = bot2_class(Board.PLAYER2_PIECE) if game_num % 2 == 0 else bot1_class(Board.PLAYER2_PIECE)
                     winner, stats = connect4(p1, p2, ui=False)
 
                     if winner == Board.PLAYER1_PIECE:

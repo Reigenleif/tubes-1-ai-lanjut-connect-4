@@ -14,21 +14,18 @@ class GeneticBot(Evaluation):
         if not valid:
             return None
 
-        # === INITIAL POPULATION ===
         population = [self._random_individual(board) for _ in range(self.pop_size)]
 
-        # === REPEAT until done ===
         for _ in range(self.generations):
             fitness = [self._fitness(board, ind) for ind in population]
             new_population = []
 
-            # === The pseudocode in your slide ===
             for _ in range(self.pop_size):
-                # selection (roulette)
+                # selection
                 x = self._random_selection(population, fitness)
                 y = self._random_selection(population, fitness)
 
-                # reproduce (one-point crossover)
+                # reproduce
                 child = self._reproduce(x, y)
 
                 # mutation

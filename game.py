@@ -17,7 +17,8 @@ bot_map = {
     'onestep': OneStepLookAheadBot,
     'minimax': MiniMaxBot,
     'expectimax': ExpectiMaxBot,
-    'montecarlo': MonteCarloBot
+    'montecarlo': MonteCarloBot,
+    'genetic': GeneticBot,
 }
 
 name_map = {
@@ -26,7 +27,8 @@ name_map = {
     'onestep': 'One Step Look Ahead Bot',
     'minimax': 'MiniMax Bot',
     'expectimax': 'ExpectiMax Bot',
-    'montecarlo': 'Monte Carlo Tree Search Bot'
+    'montecarlo': 'Monte Carlo Tree Search Bot',
+    'genetic': 'Genetic Algorthm Bot'
 }
 
 board = Board(1)

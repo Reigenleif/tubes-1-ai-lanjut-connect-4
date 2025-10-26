@@ -1,5 +1,6 @@
 import argparse
 import sys
+import random
 
 #pygame version number and welcome message hidden.
 import os
@@ -31,6 +32,7 @@ name_map = {
 }
 
 board = Board(1)
+TOTAL_GAMES = 10  # Number of games each pair of bots will play in competition mode
 
 def str2bool(v):
     if isinstance(v, bool):
@@ -48,8 +50,64 @@ def main(first_player = None, second_player = None):
     parser.add_argument('--p2', help='Player 2 type (default Human)', type=str)
     parser.add_argument('--ui', help='turn UI off in case of a bot vs bot match', type=str2bool, nargs='?', const=True, default=True)
     parser.add_argument('--bots', help='Lists the Bots available to play with', type=str2bool, nargs='?', const=True, default=False)
+
+    parser.add_argument('--competition', help='Sets the competition mode where multiple bots can play against each other in a league style', type=str2bool, nargs='?', const=True, default=False)
     args = parser.parse_args()
 
+    if args.competition:
+        bot_list = list(bot_map.values())[2:]
+        bot_names = list(bot_map.keys())[2:]
+        scores = {name: 0 for name in bot_names}
+
+        match_matrix = [[0 for _ in range(len(bot_list))] for _ in range(len(bot_list))]
+        move_matrix = [[[] for _ in range(len(bot_list))] for _ in range(len(bot_list))]
+        time_matrix = [[[] for _ in range(len(bot_list))] for _ in range(len(bot_list))]
+        
+        for i in range(len(bot_list)):
+            for j in range(i + 1, len(bot_list)):
+                bot1_class = bot_list[i]
+                bot2_class = bot_list[j]
+                bot1_name = bot_names[i]
+                bot2_name = bot_names[j]
+
+                print(f"\nStarting matches between {bot1_name} and {bot2_name}...\n")
+
+                for game_num in range(TOTAL_GAMES):
+
+                    print(f"Game {game_num + 1} of {TOTAL_GAMES}")
+                    p1 = bot1_class(Board.PLAYER1_PIECE) if game_num % 2 == 0 else bot2_class(Board.PLAYER1_PIECE)
+                    p2 = bot2_class(Board.PLAYER2_PIECE) if game_num % 2 == 0 else bot1_class(Board.PLAYER2_PIECE)
+                    winner, stats = connect4(p1, p2, ui=False)
+
+                    if winner == Board.PLAYER1_PIECE:
+                        scores[bot1_name] += 1
+                        print(f"{bot1_name} wins this game!\n")
+
+                        match_matrix[i][j] += 1
+                        move_matrix, time_matrix = assign_stats(move_matrix, time_matrix, stats, i, j)
+                    elif winner == Board.PLAYER2_PIECE:
+                        scores[bot2_name] += 1
+                        print(f"{bot2_name} wins this game!\n")
+
+                        match_matrix[j][i] += 1
+                        move_matrix, time_matrix = assign_stats(move_matrix, time_matrix, stats, i, j)
+                    else:
+                        scores[bot1_name] += 0.5
+                        scores[bot2_name] += 0.5
+                        print("This game is a draw!\n")
+
+        print("\nFinal Scores:")
+        for bot_name, score in scores.items():
+            print(f"{bot_name}: {score} points")
+
+
+        print_match_results(match_matrix, bot_names)
+        print_move_results(move_matrix, bot_names)
+        print_time_results(time_matrix, bot_names)
+
+        return
+    
+    
     if args.p1 is None and args.p2 is None and args.ui and first_player is None:
         main_screen()
 
@@ -104,6 +162,57 @@ def main(first_player = None, second_player = None):
         exit(1)
 
     connect4(p1, p2, args.ui)
+
+def print_match_results(match_matrix, bot_names):
+    print("\nMatch Results Matrix:")
+    print(" " * 15, end="")
+    for name in bot_names:
+        print(f"{name:15}", end="")
+    print()
+    for i in range(len(bot_names)):
+        print(f"{bot_names[i]:15}", end="")
+        for j in range(len(bot_names)):
+            print(f"{match_matrix[i][j]:15}", end="")
+        print()
+
+def print_move_results(move_matrix, bot_names):
+    print("\nAverage Moves Matrix:")
+    print(" " * 15, end="")
+    for name in bot_names:
+        print(f"{name:15}", end="")
+    print()
+    for i in range(len(bot_names)):
+        print(f"{bot_names[i]:15}", end="")
+        for j in range(len(bot_names)):
+            if move_matrix[i][j]:
+                avg_moves = sum(move_matrix[i][j]) / len(move_matrix[i][j])
+                print(f"{avg_moves:<15.2f}", end="")
+            else:
+                print(f"{0:<15}", end="")
+        print()
+
+def print_time_results(time_matrix=None, bot_names=None):   
+    print("\nAverage Time Matrix:")
+    print(" " * 15, end="")
+    for name in bot_names:
+        print(f"{name:15}", end="")
+    print()
+    for i in range(len(bot_names)):
+        print(f"{bot_names[i]:15}", end="")
+        for j in range(len(bot_names)):
+            if time_matrix[i][j]:
+                avg_time = sum(time_matrix[i][j]) / len(time_matrix[i][j])
+                print(f"{avg_time:<15.2f}", end="")
+            else:
+                print(f"{0:<15}", end="")
+        print()     
+
+def assign_stats(move_matrix, time_matrix, stats, i, j):
+    move_matrix[i][j].append(stats[0]["moves_count"])
+    time_matrix[i][j].append(stats[0]["time"])
+    move_matrix[j][i].append(stats[1]["moves_count"])
+    time_matrix[j][i].append(stats[1]["time"])
+    return move_matrix, time_matrix
 
 def main_screen():
     pygame.init()

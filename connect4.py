@@ -41,7 +41,7 @@ def check_win(piece):
 			gb.write_on_board("PLAYER " + str(piece) + " WINS!", PLAYER_COLOUR[piece - 1], 350, 50, 70, True)
 			gb.update_gboard()
 		print("\nPLAYER " + str(piece) + " WINS!")
-		return True
+		return piece
 	
 	if board.check_draw():
 		if graphics:
@@ -58,6 +58,9 @@ def connect4(p1, p2, ui=True):
 
 	board = Board(turn)
 	board.print_board()
+
+	game_over = False
+	
 
 	if graphics:
 		gb = GBoard(board)
@@ -106,6 +109,7 @@ def connect4(p1, p2, ui=True):
 			print("TIME: " + "{:.2f}".format(round(time_p2, 2)) + " seconds")
 			print("MOVES: "+ str(moves_count_p2))
 
+			return game_over, [{"time": time_p1, "moves_count": moves_count_p1}, {"time": time_p2, "moves_count": moves_count_p2}]
 			sys.exit()
 
 if __name__ == "__main__":

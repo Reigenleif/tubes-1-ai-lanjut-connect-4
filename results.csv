@@ -1,0 +1,6 @@
+timestamp,match_number,bot1,bot2,winner,time_p1,moves_p1,time_p2,moves_p2,wall_time_seconds,returncode,error
+2025-10-27 10:23:48,1,montecarlo,genetic,player1,12.01,6,2.35,5,16.817,0,
+2025-10-27 10:24:02,2,random,montecarlo,player2,0.0,6,12.01,6,14.337,0,
+2025-10-27 10:24:08,3,minimax,onestep,player1,3.01,12,0.01,12,5.359,0,
+2025-10-27 10:24:18,4,onestep,montecarlo,player2,0.0,3,8.0,4,10.442,0,
+2025-10-27 10:24:41,5,genetic,montecarlo,player2,4.2,7,16.01,8,22.677,0,

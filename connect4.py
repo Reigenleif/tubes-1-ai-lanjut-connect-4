@@ -21,7 +21,7 @@ graphics = True
 PLAYER_COLOUR = [GBoard.RED, GBoard.YELLOW]
 
 game_over = False
-turn = random.randint(Board.PLAYER1_PIECE, Board.PLAYER2_PIECE)
+turn = Board.PLAYER1_PIECE
 
 def next_turn():
 	global turn
@@ -101,11 +101,11 @@ def connect4(p1, p2, ui=True):
 
 		if game_over:
 			pygame.time.wait(1000)
-
-			print("\nPlayer 1")
+			board.print_board()
+			print("\nPlayer 1 {}".format(p1.__class__.__name__))
 			print("TIME: " + "{:.2f}".format(round(time_p1, 2)) + " seconds")
 			print("MOVES: "+ str(moves_count_p1))
-			print("\nPlayer 2")
+			print("\nPlayer 2 {}".format(p2.__class__.__name__))
 			print("TIME: " + "{:.2f}".format(round(time_p2, 2)) + " seconds")
 			print("MOVES: "+ str(moves_count_p2))
 

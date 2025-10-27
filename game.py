@@ -78,17 +78,28 @@ def main(first_player = None, second_player = None):
                     winner, stats = connect4(p1, p2, ui=False)
 
                     if winner == Board.PLAYER1_PIECE:
-                        scores[bot1_name] += 1
-                        print(f"{bot1_name} wins this game!\n")
-
-                        match_matrix[i][j] += 1
-                        move_matrix, time_matrix = assign_stats(move_matrix, time_matrix, stats, i, j)
+                        if game_num % 2 == 0:
+                            scores[bot1_name] += 1
+                            print(f"{bot1_name} wins this game!\n")
+                            match_matrix[i][j] += 1
+                            move_matrix, time_matrix = assign_stats(move_matrix, time_matrix, stats, i, j)
+                        else:
+                            scores[bot2_name] += 1
+                            print(f"{bot2_name} wins this game!\n")
+                            match_matrix[j][i] += 1
+                            move_matrix, time_matrix = assign_stats(move_matrix, time_matrix, stats, j, i)
+                            
                     elif winner == Board.PLAYER2_PIECE:
-                        scores[bot2_name] += 1
-                        print(f"{bot2_name} wins this game!\n")
-
-                        match_matrix[j][i] += 1
-                        move_matrix, time_matrix = assign_stats(move_matrix, time_matrix, stats, i, j)
+                        if game_num % 2 == 0:
+                            scores[bot2_name] += 1
+                            print(f"{bot2_name} wins this game!\n")
+                            match_matrix[j][i] += 1
+                            move_matrix, time_matrix = assign_stats(move_matrix, time_matrix, stats, i, j)
+                        else:
+                            scores[bot1_name] += 1
+                            print(f"{bot1_name} wins this game!\n")
+                            match_matrix[i][j] += 1
+                            move_matrix, time_matrix = assign_stats(move_matrix, time_matrix, stats, j, i)
                     else:
                         scores[bot1_name] += 0.5
                         scores[bot2_name] += 0.5

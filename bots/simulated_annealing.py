@@ -3,7 +3,7 @@ import math
 from bots.evaluation import Evaluation
 
 class SimulatedAnnealingBot(Evaluation):
-	ACCEPTANCE_PROBABILITY_TRESHOLD = 0.3
+	ACCEPTANCE_PROBABILITY_TRESHOLD = 0.7
 	LIMIT_CONSIDERABLE_SLOT_PERCENTAGE = 0.7
 	WINNING_POINT = 100000000000000
 	LOSING_POINT = -10000000000000
@@ -41,7 +41,7 @@ class SimulatedAnnealingBot(Evaluation):
 				if new_score >= value:
 					value = new_score
 					column = col
-				else:
+				elif temperature > 0:
 					acceptance_prob = math.exp((new_score - value) / temperature)
 					print("temperature:", temperature)
 					print("acceptance_prob:", acceptance_prob)
@@ -64,12 +64,8 @@ class SimulatedAnnealingBot(Evaluation):
 				if new_score <= value:
 					value = new_score
 					column = col
-				else:
-					print("value:", value)
-					print("new_score:", new_score)
+				elif temperature > 0:
 					acceptance_prob = math.exp((value - new_score) / temperature)
-					print("temperature:", temperature)
-					print("acceptance_prob:", acceptance_prob)
 					if self.ACCEPTANCE_PROBABILITY_TRESHOLD < acceptance_prob:
 						value = new_score
 						column = col

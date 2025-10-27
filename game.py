@@ -75,7 +75,7 @@ def main(first_player = None, second_player = None):
                     print(f"Game {game_num + 1} of {TOTAL_GAMES}")
                     p1 = bot1_class(Board.PLAYER1_PIECE) if game_num % 2 == 0 else bot2_class(Board.PLAYER1_PIECE)
                     p2 = bot2_class(Board.PLAYER2_PIECE) if game_num % 2 == 0 else bot1_class(Board.PLAYER2_PIECE)
-                    winner, stats = connect4(p1, p2, ui=False)
+                    winner, stats = connect4(p1, p2, ui=False, show_board=False)
 
                     if winner == Board.PLAYER1_PIECE:
                         if game_num % 2 == 0:

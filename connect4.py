@@ -23,10 +23,12 @@ PLAYER_COLOUR = [GBoard.RED, GBoard.YELLOW]
 game_over = False
 turn = Board.PLAYER1_PIECE
 
-def next_turn():
+def next_turn(show_board=True):
 	global turn
-	print("\nPlayer " + str(turn) + "'s Turn\n")
-	board.print_board()
+	if show_board:
+		print("\nPlayer " + str(turn) + "'s Turn\n")
+		board.print_board()
+
 	if graphics:
 		gb.draw_gboard(board)
 
@@ -51,7 +53,7 @@ def check_win(piece):
 		return True
 	return False
 
-def connect4(p1, p2, ui=True):
+def connect4(p1, p2, ui=True, show_board=True):
 	global game_over, board, gb, graphics
 
 	graphics=ui
@@ -79,7 +81,7 @@ def connect4(p1, p2, ui=True):
 			if board.is_valid_location(col):
 				board.drop_piece(col, board.PLAYER1_PIECE)
 				moves_count_p1 += 1
-				next_turn()
+				next_turn(show_board)
 				game_over = check_win(board.PLAYER1_PIECE)
 		end = time.perf_counter()
 
@@ -93,7 +95,7 @@ def connect4(p1, p2, ui=True):
 			if board.is_valid_location(col):
 				board.drop_piece(col, board.PLAYER2_PIECE)
 				moves_count_p2 += 1
-				next_turn()
+				next_turn(show_board)
 				game_over = check_win(board.PLAYER2_PIECE)
 		end = time.perf_counter()
 

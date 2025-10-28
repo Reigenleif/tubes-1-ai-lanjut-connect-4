@@ -83,25 +83,23 @@ def run_match(bot1, bot2, per_match_timeout=120):
     }
 
 
-def main(duration, outfile, seed=None):
-    start_time = time.time()
-    end_time = start_time + duration
-
+def main(duration_per_game, outfile):
     bots = get_available_bots()
     if not bots:
         print('No bots found in game.bot_map (excluding human). Exiting.')
         return
 
-    # create list of ordered pairs (bot1, bot2) where bot1 != bot2
-    matchups = [(a, b) for a in bots for b in bots if a != b]
-    random.seed(seed)
-    random.shuffle(matchups)
+    matchups = [(bots[i], bots[j]) for i in range(len(bots)) for j in range(i + 1, len(bots))]
 
     results = []
     match_count = 0
+    
+    duration_total = len(matchups) * duration_per_game
+    start_time = time.time()
+    end_time = start_time + duration_total
 
     idx = 0
-    while time.time() < end_time:
+    while time.time() < end_time and idx < len(matchups):
         bot1, bot2 = matchups[idx % len(matchups)]
         idx += 1
         match_count += 1
@@ -140,7 +138,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Run bot-vs-bot matches for a time budget and collect stats.')
     parser.add_argument('--duration', type=float, default=60.0, help='Total duration in seconds to run matches (default: 60)')
     parser.add_argument('--outfile', type=str, default=os.path.join(ROOT, 'results.csv'), help='CSV output file path (default: results.csv in repo root)')
-    parser.add_argument('--seed', type=int, default=None, help='Random seed for match ordering')
     args = parser.parse_args()
 
-    main(args.duration, args.outfile, seed=args.seed)
+    main(args.duration, args.outfile)

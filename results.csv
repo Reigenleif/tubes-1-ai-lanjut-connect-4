@@ -1,6 +1,16 @@
-timestamp,match_number,bot1,bot2,winner,time_p1,moves_p1,time_p2,moves_p2,wall_time_seconds,returncode,error
-2025-10-27 10:23:48,1,montecarlo,genetic,player1,12.01,6,2.35,5,16.817,0,
-2025-10-27 10:24:02,2,random,montecarlo,player2,0.0,6,12.01,6,14.337,0,
-2025-10-27 10:24:08,3,minimax,onestep,player1,3.01,12,0.01,12,5.359,0,
-2025-10-27 10:24:18,4,onestep,montecarlo,player2,0.0,3,8.0,4,10.442,0,
-2025-10-27 10:24:41,5,genetic,montecarlo,player2,4.2,7,16.01,8,22.677,0,
+match_number,bot1,bot2,winner,time_p1,moves_p1,time_p2,moves_p2,wall_time_seconds
+1,random,onestep,player2,0.0,3,0.0,4,2.064
+2,random,minimax,player2,0.0,4,3.26,5,5.291
+3,random,expectimax,player2,0.0,9,0.61,9,2.601
+4,random,montecarlo,player2,0.0,3,8.0,4,10.072
+5,random,genetic,player2,0.0,6,37.21,6,39.368
+6,onestep,minimax,player2,0.01,8,4.9,9,6.943
+7,onestep,expectimax,player1,0.01,14,0.56,14,2.609
+8,onestep,montecarlo,player2,0.0,6,14.01,7,16.121
+9,onestep,genetic,player1,0.01,7,42.06,7,44.493
+10,minimax,expectimax,player1,3.69,9,1.23,8,6.963
+11,minimax,montecarlo,player2,3.44,15,30.01,15,35.65
+12,minimax,genetic,player1,1.92,4,24.8,4,28.778
+13,expectimax,montecarlo,player1,0.04,4,6.0,3,8.07
+14,expectimax,genetic,player1,0.03,4,24.13,4,26.21
+15,montecarlo,genetic,player1,10.0,5,24.91,4,36.959

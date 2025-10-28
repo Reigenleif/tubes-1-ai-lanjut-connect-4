@@ -13,21 +13,10 @@ class GeneticAlgorithmBot(Evaluation) :
     Fixed number of moves ahead to consider.
     
     Idea for a gene representation:
-    Each individual in the population represents a sequence of moves.
-    
-    Idea behind the fitness function:
-    The fitness function evaluates how close a given sequence of moves is to winning the game.
-    The fitness also considers "M-1" state (as in chess), where there is no winning move for the opponent
-    "M-1" state for Connect 4 is the state that you get 2 connect-3s.
-    At this state, player is guaranteed to win
-    
-    Proposed fitness function :
-    fitness = 1 if there is a M-1 state in the sequence
-    fitness = (number of maximum connect formed) * 0.25
+    Each individual in the population represents a sequence of moves.    
     
     Adversary model :
     The adversary is modeled as taking a move that maximize its own fitness.
-    fitness_adversary = (number of maximum connect formed by adversary) * 0.25
     
     """
     
@@ -97,41 +86,31 @@ class GeneticAlgorithmBot(Evaluation) :
     def calculate_fitness(self, board, individual):
         """
         Fitness function that evaluates a sequence of moves
-        
-        Returns:
-            fitness = 1 if M-1 state achieved
-            fitness = max_connect * 0.25 otherwise
-            fitness = -1 for invalid sequences
         """
         temp_board = board.copy_board()
-        current_piece = self.piece
-        
-        # Simulate the move sequence alternating between player and opponent
-        for move_index, move in enumerate(individual):
-            valid_locations = temp_board.get_valid_locations()
-            
-            # Invalid move penalty
-            if move not in valid_locations:
-                return -1.0
-            
-            # Make the move
-            temp_board.drop_piece(move, current_piece)
-            
-            # Check if player wins
-            if current_piece == self.piece and temp_board.winning_move(self.piece):
-                return 1.0
-            
-            # Check for M-1 state (two connect-3s for player)
-            if current_piece == self.piece:
-                if self.has_m1_state(temp_board, self.piece):
-                    return 1.0
-            
-            # Alternate between player and opponent
-            current_piece = self.opponent_piece if current_piece == self.piece else self.piece
-        
-        # No win found, evaluate based on max connect
-        max_connect = self.get_max_connect(temp_board, self.piece)
-        return max_connect * 0.25
+        for move in individual:
+            if temp_board.is_valid_location(move):
+                temp_board.drop_piece(move, self.piece)
+                
+                # Opponent's turn - assume opponent plays optimally
+                opponent_moves = temp_board.get_valid_locations()
+                if opponent_moves:
+                    best_opp_move = None
+                    best_opp_score = -math.inf
+                    for opp_move in opponent_moves:
+                        test_board = temp_board.copy_board()
+                        test_board.drop_piece(opp_move, self.opponent_piece)
+                        score = self.score_position(test_board)
+                        if score > best_opp_score:
+                            best_opp_score = score
+                            best_opp_move = opp_move
+                    if best_opp_move is not None:
+                        temp_board.drop_piece(best_opp_move, self.opponent_piece)
+            else:
+                # Invalid move penalization
+                return -1000
+        score = self.score_position(temp_board)
+        return score
     
     def has_m1_state(self, board, piece):
         """
@@ -150,49 +129,6 @@ class GeneticAlgorithmBot(Evaluation) :
                         return True
         return False
     
-    def count_connect_3(self, board, row, col, piece):
-        """
-        Helper to detect connect-3 patterns with potential for connect-4
-        """
-        # Simplified check for 3 in a row with growth potential
-        directions = [(0, 1), (1, 0), (1, 1), (1, -1)]
-        
-        for dr, dc in directions:
-            count = 0
-            for i in range(4):
-                r, c = row + dr * i, col + dc * i
-                if 0 <= r < board.ROW_COUNT and 0 <= c < board.COLUMN_COUNT:
-                    if board.board[r][c] == piece:
-                        count += 1
-            if count == 3:
-                return True
-        return False
-    
-    def get_max_connect(self, board, piece):
-        """
-        Find the maximum number of connected pieces for the player
-        """
-        max_connect = 0
-        
-        for row in range(board.ROW_COUNT):
-            for col in range(board.COLUMN_COUNT):
-                if board.board[row][col] == piece:
-                    # Check all directions
-                    directions = [(0, 1), (1, 0), (1, 1), (1, -1)]
-                    for dr, dc in directions:
-                        connect = 1
-                        for i in range(1, 4):
-                            r, c = row + dr * i, col + dc * i
-                            if 0 <= r < board.ROW_COUNT and 0 <= c < board.COLUMN_COUNT:
-                                if board.board[r][c] == piece:
-                                    connect += 1
-                                else:
-                                    break
-                            else:
-                                break
-                        max_connect = max(max_connect, connect)
-        
-        return max_connect
     
     def select_and_breed(self, population, fitness_scores):
         """

@@ -8,7 +8,7 @@ class SimulatedAnnealingBot(Evaluation):
 	WINNING_POINT = 100000000000000
 	LOSING_POINT = -10000000000000
 	K = 10
-	def __init__(self, piece, depth=5):
+	def __init__(self, piece, depth=1):
 		super().__init__(piece)
 		self.depth = depth
 

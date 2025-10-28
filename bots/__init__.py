@@ -4,6 +4,9 @@ from .onesteplook import OneStepLookAheadBot
 from .minimax import MiniMaxBot
 from .expectimax import ExpectiMaxBot
 from .montecarlo import MonteCarloBot
+from .minimax_new_eval import MiniMaxBotNewEval
+from .genetic_algorithm import GeneticAlgorithmBot
+
 
 __all__ = [
     'Human',
@@ -11,5 +14,7 @@ __all__ = [
     'OneStepLookAheadBot',
     'MiniMaxBot',
     'ExpectiMaxBot',
-    'MonteCarloBot'
+    'MonteCarloBot',
+    'MiniMaxBotNewEval',
+    'GeneticAlgorithmBot'
 ]

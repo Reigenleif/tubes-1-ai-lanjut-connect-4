@@ -19,7 +19,8 @@ bot_map = {
     'minimax': MiniMaxBot,
     'expectimax': ExpectiMaxBot,
     'montecarlo': MonteCarloBot,
-    'genetic': GeneticAlgorithmBot
+    'genetic': GeneticAlgorithmBot,
+    'simulated_annealing': SimulatedAnnealingBot
 }
 
 name_map = {
@@ -29,7 +30,8 @@ name_map = {
     'minimax': 'MiniMax Bot',
     'expectimax': 'ExpectiMax Bot',
     'montecarlo': 'Monte Carlo Tree Search Bot',
-    'genetic': 'Genetic Algorithm Bot'
+    'genetic': 'Genetic Algorithm Bot',
+    'simulated_annealing': 'Simulated Annealing Bot'
 }
 
 board = Board(1)
@@ -126,11 +128,9 @@ def main(first_player = None, second_player = None):
     print("\n")
     if args.bots:
         print('The available bots to play with are:')
-        print('Random Int Bot (random)')
-        print('One Step Look Ahead Bot (onestep)')
-        print('MiniMax Bot (minimax)')
-        print('ExpectiMax Bot (expectimax)')
-        print('Monte Carlo Tree Search Bot (montecarlo)')
+        for bot in bot_map:
+            if bot != 'human':
+                print(f'- {name_map[bot]} ({bot})')
         print()
         print('Use the string in the brackets to pass as argument to p1 and p2')
         exit(1)

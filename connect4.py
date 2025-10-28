@@ -54,8 +54,7 @@ def check_win(piece):
 	return False
 
 def connect4(p1, p2, ui=True, show_board=True):
-	global game_over, board, gb, graphics
-
+	global game_over, board, gb, graphics, turn
 	graphics=ui
 
 	board = Board(turn)
@@ -110,7 +109,7 @@ def connect4(p1, p2, ui=True, show_board=True):
 			print("\nPlayer 2 {}".format(p2.__class__.__name__))
 			print("TIME: " + "{:.2f}".format(round(time_p2, 2)) + " seconds")
 			print("MOVES: "+ str(moves_count_p2))
-
+			turn = Board.PLAYER1_PIECE
 			return game_over, [{"time": time_p1, "moves_count": moves_count_p1}, {"time": time_p2, "moves_count": moves_count_p2}]
 			sys.exit()
 

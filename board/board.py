@@ -21,6 +21,9 @@ class Board:
         self.CURR_PLAYER = current_player
         self.PREV_PLAYER = self.get_opp_player(current_player)
 
+    def get_num_slots_filled(self):
+        return self.num_slots_filled
+
     def copy_board(self):
         c = copy.deepcopy(self)
         return c

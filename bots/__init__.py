@@ -6,7 +6,7 @@ from .expectimax import ExpectiMaxBot
 from .montecarlo import MonteCarloBot
 from .minimax_new_eval import MiniMaxBotNewEval
 from .genetic_algorithm import GeneticAlgorithmBot
-
+from .simulated_annealing import SimulatedAnnealingBot
 
 __all__ = [
     'Human',
@@ -17,4 +17,5 @@ __all__ = [
     'MonteCarloBot',
     'MiniMaxBotNewEval',
     'GeneticAlgorithmBot'
+    'SimulatedAnnealingBot'
 ]

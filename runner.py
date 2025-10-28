@@ -89,7 +89,7 @@ def main(duration_per_game, outfile):
         print('No bots found in game.bot_map (excluding human). Exiting.')
         return
 
-    matchups = [(bots[i], bots[j]) for i in range(len(bots)) for j in range(i + 1, len(bots))]
+    matchups = [(b1, b2) for i, b1 in enumerate(bots) for b2 in bots if b1 != b2]
 
     results = []
     match_count = 0

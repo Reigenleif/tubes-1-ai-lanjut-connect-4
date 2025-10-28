@@ -13,7 +13,6 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
 board = None
 gb = None
-i = 0
 
 # dev statement to turn of the UI when having a bot vs bot match
 # turning UI off in this case helps improve the performance of the bots.
@@ -25,8 +24,7 @@ game_over = False
 turn = Board.PLAYER1_PIECE
 
 def next_turn(show_board=True):
-	global turn, i
-	i += 1
+	global turn
 	if show_board:
 		print("\nPlayer " + str(turn) + "'s Turn\n")
 		board.print_board()
@@ -111,7 +109,6 @@ def connect4(p1, p2, ui=True, show_board=True):
 			print("\nPlayer 2 {}".format(p2.__class__.__name__))
 			print("TIME: " + "{:.2f}".format(round(time_p2, 2)) + " seconds")
 			print("MOVES: "+ str(moves_count_p2))
-			print("iteration: " + str(i))
 			turn = Board.PLAYER1_PIECE
 			return game_over, [{"time": time_p1, "moves_count": moves_count_p1}, {"time": time_p2, "moves_count": moves_count_p2}]
 			sys.exit()

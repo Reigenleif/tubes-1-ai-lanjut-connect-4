@@ -6,7 +6,6 @@ import random
 import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
-from bots.genetic_algorithm import GeneticAlgorithmBot
 import pygame
 from bots import *
 from board import *
@@ -17,6 +16,7 @@ bot_map = {
     'random': RandomBot,
     'onestep': OneStepLookAheadBot,
     'minimax': MiniMaxBot,
+    'minimaxneweval': MiniMaxBotNewEval,
     'expectimax': ExpectiMaxBot,
     'montecarlo': MonteCarloBot,
     'genetic': GeneticAlgorithmBot,
@@ -28,6 +28,7 @@ name_map = {
     'random': 'Random Bot',
     'onestep': 'One Step Look Ahead Bot',
     'minimax': 'MiniMax Bot',
+    'minimaxneweval': 'MiniMax Bot with new evaluation function',
     'expectimax': 'ExpectiMax Bot',
     'montecarlo': 'Monte Carlo Tree Search Bot',
     'genetic': 'Genetic Algorithm Bot',

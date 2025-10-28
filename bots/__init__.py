@@ -16,6 +16,6 @@ __all__ = [
     'ExpectiMaxBot',
     'MonteCarloBot',
     'MiniMaxBotNewEval',
-    'GeneticAlgorithmBot'
+    'GeneticAlgorithmBot',
     'SimulatedAnnealingBot'
 ]
